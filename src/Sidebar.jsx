@@ -107,7 +107,7 @@ export default function MiniDrawer() {
     <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="fixed" sx={{backgroundColor: "#222222"}}>
+        <AppBar position="fixed" sx={{backgroundColor: "#000"}}>
           <Toolbar>
             <IconButton
               color="inherit"
@@ -120,7 +120,7 @@ export default function MiniDrawer() {
             >
               <MenuIcon />
             </IconButton>
-            <img src='/gazy-logo-white.png' alt='Youtube' height={50} />
+            <img src="" alt='Youtube' height={50} />
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>

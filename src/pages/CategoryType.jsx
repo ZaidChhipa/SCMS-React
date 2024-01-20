@@ -1,5 +1,3 @@
-// Your Category component
-
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Typography } from '@mui/material';
@@ -10,8 +8,6 @@ import axios from 'axios';
 import { Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import {host} from '../Variable';
-import DeletePopup from '../components/Deletepopup';
-import SuccessAlert from '../components/Successalert';
 
 const useStyles = makeStyles({
   container: {
@@ -30,17 +26,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-const Category = () => {
+const CategoryType = () => {
   const [categoryData, setCategoryData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${host}/Setup/getallcategory`);
+        const response = await axios.get(`${host}/Setup/getallcategorytype`);
+        console.log("grid of cetogory type:",response.data);
         setCategoryData(response.data);
         setLoading(false);
       } catch (error) {
@@ -54,45 +49,19 @@ const Category = () => {
   const handleButtonClick = (action) => {
     if (selectedRows.length > 0) {
       if (action === 'edit') {
-        window.location.href = `/addcategory?id=${selectedRows[0]}`;
+        window.location.href = `/addcategorytype?id=${selectedRows[0]}`;
       } 
-      else if (action === 'delete') {
-        setIsDialogOpen(true);
+      else if (action === 'delete') { 
       }
     }
     else {
       if(action  === 'add'){
-        window.location.href = '/addcategory';
+        window.location.href = '/addcategorytype';
       }
     }
   };
 
-  const handleDeleteConfirmed = async () => {
-    try {
-     // Perform the delete operation using the API
-      const response = await axios.post(`${host}/setup/deletecategory?id=${selectedRows[0]}`);
 
-      console.log("response : ",response);
-      // Check if the delete operation was successful
-      if (response.data.statusCode === '000') {
-        // Show success alert or handle accordingly
-        setIsSuccessAlertOpen(true);
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000); 
-      } else {
-        // Show error alert or handle other StatusCode values
-        alert('Failed to delete the record');
-      }
-    } catch (error) {
-      console.error('Error deleting record:', error);
-    }
-
-    setIsDialogOpen(false); // Close the confirmation dialog
-  };
-
-
- 
   const handleRowClick = (row) => {
     const rowIndex = selectedRows.indexOf(row.id);
     if (rowIndex === -1) {
@@ -106,31 +75,18 @@ const Category = () => {
 
   const classes = useStyles();
   const columns = [
-    { key: 'categoryName', label: 'Category' },
-    { key: 'categoryTypeName', label: 'Category Type' },
-    { key: 'categoryMargin', label: 'Category Margin' },
+    { key: 'id', label: 'Id' },
+    { key: 'categoryTypeName', label: 'Category Type Name' },
+    { key: 'categoryTypeHeaderName', label: 'Category Type Header Name' },
   ];
 
   return (
     <div>
       <Box sx={{ display: 'flex' }}>
         <Sidenav />
-
         <Box sx={{ flexGrow: 1, paddingLeft: 3 }}>
           <DrawerHeader />
-          <DeletePopup
-          open={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-          onConfirm={handleDeleteConfirmed}
-        />
-      <SuccessAlert
-        open={isSuccessAlertOpen}
-        onClose={() => setIsSuccessAlertOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        severity="success"
-        message="Record deleted successfully!"
-      />
-          <h1>Category</h1>
+          <h1>Category Type</h1>
           <div className={classes.container}>
             <Button
               variant="contained"
@@ -175,4 +131,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default CategoryType;

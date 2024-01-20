@@ -60,7 +60,7 @@ function Login() {
             );
 
             if (matchingUser) {
-                navigate('/home');
+                navigate('/dashboard');
             } else {
                 setErrors({
                 ...newErrors,
@@ -162,6 +162,7 @@ function Login() {
             Sign In
           </Button>
         </form>
+        <p>Don't Have Account ?  <a href="/signup"><b>SignUp</b></a>   </p>
       </Box>
     </Container>
   </ThemeProvider>
